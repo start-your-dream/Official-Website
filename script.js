@@ -5,6 +5,18 @@
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
+  /* ---- Loading screen ---- */
+  var loader = $('#loader'), root = document.documentElement, t0 = performance.now(), gone = false;
+  function hideLoader() {
+    if (gone) return; gone = true;
+    setTimeout(function () {
+      root.classList.remove('loading');
+      if (loader) { loader.classList.add('done'); setTimeout(function () { loader.remove(); }, 800); }
+    }, Math.max(0, 1150 - (performance.now() - t0)));
+  }
+  if (document.readyState === 'complete') hideLoader(); else addEventListener('load', hideLoader);
+  setTimeout(hideLoader, 3500);
+
   /* ---- Mobile menu ---- */
   var btn = $('.menu-btn'), nav = $('#nav');
   if (btn && nav) {
